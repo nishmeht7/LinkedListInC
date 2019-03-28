@@ -11,6 +11,10 @@ void printLL(node *head) {
     printf("\n");
 }
 
+int newMethodTest(){
+    return 1;
+}
+
 node* createList(int n) {
     int i = 0;
     node *temp;
