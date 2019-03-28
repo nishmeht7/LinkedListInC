@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/nishantmehta/Desktop/CS520/LL/helper.h
+
+/Users/nishantmehta/Desktop/CS520/LL/main.c
+stdio.h
+-
+stdlib.h
+-
+helper.h
+/Users/nishantmehta/Desktop/CS520/LL/helper.h
+
