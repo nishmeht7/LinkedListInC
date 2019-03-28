@@ -40,6 +40,15 @@ node* createList(int n) {
     return head;
 }
 
+//TODO print, append(data), getLength, insert(index, data), modify(index, data)
+//TODO min, max, concat, reverse, sort (selection)
+
+//TODO Nishant: print, append, concat, insert
+//TODO Fred: min, max, modify
+
+
+
+
 int main() {
     int nodes = 0;
     printf("How many nodes would you like to add? ");
