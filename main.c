@@ -11,10 +11,6 @@ void printLL(node *head) {
     printf("\n");
 }
 
-int newMethodTest(){
-    return 1;
-}
-
 node* createList(int n) {
     int i = 0;
     node *temp;
@@ -43,6 +39,15 @@ node* createList(int n) {
     }
     return head;
 }
+
+//TODO print, append(data), getLength, insert(index, data), modify(index, data)
+//TODO min, max, concat, reverse, sort (selection)
+
+//TODO Nishant: print, append, concat, insert
+//TODO Fred: min, max, modify
+
+
+
 
 int main() {
     int nodes = 0;
