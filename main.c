@@ -19,7 +19,7 @@ node* createList(int n) {
 //    node *mainList;
 
     for(i = 0; i < n; i++) {
-        printf("inside\n");
+        printf("(inside list)\n");
         temp = (node*)malloc(sizeof(node));
         printf("Please enter a number to add: \n");
         scanf(" %d", &(temp->data));
@@ -46,15 +46,25 @@ node* createList(int n) {
 //TODO Nishant: print, append, concat, insert
 //TODO Fred: min, max, modify
 
+//strcmp
 
 
 
 int main() {
-    int nodes = 0;
-    printf("How many nodes would you like to add? ");
-    scanf("%d", &nodes);
+//    int nodes = 0;
+//    printf("How many nodes would you like to add? ");
+//    scanf("%d", &nodes);
+//
+//    node *new = createList(nodes);
 
-    node *new = createList(nodes);
-    printLL(new);
+//    printLL(new);
+
+    node n = {1,NULL}; //int example
+    printf("%d\n",n.data.i);
+
+    char* a = 'a';
+    node m = {a, NULL}; //char example
+    printf("%s\n",m.data.str);
+
     return 0;
 }
