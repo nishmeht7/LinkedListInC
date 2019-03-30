@@ -6,6 +6,10 @@
 
 #define MAX_INPUT 100
 
+/**
+ * prints a linked list
+ * @param head first node of the list
+ */
 void printLL(node *head) {
     node *curr = head;
     while(curr != NULL) {
@@ -15,6 +19,11 @@ void printLL(node *head) {
     printf("\n");
 }
 
+/**
+ * creates a node with the given data by determining data type
+ * @param newData int string format
+ * @return the newly created node
+ */
 node* createNode(char *newData) {
     int i;
     double d;
@@ -45,6 +54,11 @@ node* createNode(char *newData) {
     return temp;
 }
 
+/**
+ * user enabled creation of a new linked list
+ * @param n number of nodes to start with
+ * @return head to the newly created list
+ */
 node* createList(int n) {
     int i = 0;
     node *currNode;
@@ -78,6 +92,10 @@ node* createList(int n) {
 //TODO Nishant: print, append, concat, insert
 //TODO Fred: min, max, modify
 
+/**
+ * program main function
+ * @return
+ */
 int main() {
     char userInput[MAX_INPUT];
     int nodes = 0;
