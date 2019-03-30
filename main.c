@@ -19,6 +19,20 @@ void printLL(node *head) {
 }
 
 /**
+ * returns the length of a list
+ * @param head list to check length of
+ * @return length of list
+ */
+int getLen(node *head) {
+    int len = 0;
+    while(head != NULL) {
+        len++;
+        head = head->next;
+    }
+    return len;
+}
+
+/**
  * creates a node with the given data by determining data type
  * @param newData int string format
  * @return the newly created node
@@ -133,11 +147,31 @@ node* append(node *head, char *data) {
     return head;
 }
 
+/**
+ * concatenates two lists
+ * @param list1 head of list one
+ * @param list2 head of list two
+ * @return head of newly concatenated list
+ */
+node* concat(node *list1, node *list2) {
+    node *curr = list1;
+    if(list1 == NULL) return list2;
+    if(list1->next == NULL) {
+        list1->next = list2;
+        return list1;
+    }
+    while(curr->next != NULL) {
+        curr = curr->next;
+    }
+    curr->next = list2;
+    return list1;
+}
+
 //TODO print, append(data), getLength, insert(index, data), modify(index, data)
 //TODO min, max, concat, reverse, sort (selection)
 
-//TODO Nishant: print(done), append, concat, insert(done)
-//TODO Fred: min, max, modify
+//TODO Nishant: print(done), append(done), concat(done), insert(done)
+//TODO Fred: min, max, modify, reverse
 
 /**
  * program main function
@@ -153,11 +187,19 @@ int main() {
     nodes = atoi(userInput);
     node *new = createList(nodes);
 
+    printf("How many nodes would you like for the second list? ");
+    fgets(userInput, MAX_INPUT, stdin);
+
+    nodes = atoi(userInput);
+    node *second = createList(nodes);
+
     printLL(new);
 
 //    node *newHead = insert(new, 2, "[1,2,3,4]");
-    node *newHead = append(new, "54321");
+//    node *newHead = append(new, "54321");
+    node *newHead = concat(new, second);
 
     printLL(newHead);
+
     return 0;
 }
