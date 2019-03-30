@@ -1,40 +1,66 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <math.h>
 #include "helper.h"
+
+#define MAX_INPUT 100
 
 void printLL(node *head) {
     node *curr = head;
     while(curr != NULL) {
-        printf("%d\t", curr->data);
+        printf("%s", curr->dataStr);
         curr = curr->next;
     }
     printf("\n");
 }
 
+node* createNode(char *newData) {
+    int i;
+    double d;
+    double tolerance = 1e-12;
+    node *temp = (node*)malloc(sizeof(node));
+    strcpy(temp->dataStr, newData);
+    printf("the string is: %s\n", temp->dataStr);
+    if(sscanf(newData, "%lf", &d) == 1) {
+        i = (int)d; // typecast to int.
+        if (fabs(d - i) / d > tolerance) {
+            temp->data.d = d;
+            printf("The input is a floating point\n");
+        }
+        else {
+            temp->data.i = i;
+            printf("The input is an integer\n");
+        }
+    }
+    else {
+        strcpy(temp->data.str, newData);
+    }
+    return temp;
+}
+
 node* createList(int n) {
     int i = 0;
-    node *temp;
+    node *currNode;
     node *head = NULL;
     node *tail = NULL;
-//    node *mainList;
 
     for(i = 0; i < n; i++) {
         printf("(inside list)\n");
-        temp = (node*)malloc(sizeof(node));
-        printf("Please enter a number to add: \n");
-        scanf(" %d", &(temp->data));
-        temp->next = NULL;
-        printf("the num is: %d\n", temp->data);
-        printf("head is: %p\n", head);
-//
+        printf("Please enter a value to add: ");
+        char inputData[MAX_INPUT];
+        char *newData = inputData;
+        fgets(newData, MAX_INPUT, stdin);
+        currNode = createNode(newData);
+        printf("the data is: %s\n", currNode->data.str);
+
         if(head == NULL) {
-            printf("inside if");
-            head = temp;
-            tail = temp;
+            head = currNode;
+            tail = currNode;
         }
         else {
-            tail->next = temp;
-            tail = temp;
+            tail->next = currNode;
+            tail = currNode;
         }
     }
     return head;
@@ -46,25 +72,16 @@ node* createList(int n) {
 //TODO Nishant: print, append, concat, insert
 //TODO Fred: min, max, modify
 
-//strcmp
-
-
-
 int main() {
-//    int nodes = 0;
-//    printf("How many nodes would you like to add? ");
-//    scanf("%d", &nodes);
-//
-//    node *new = createList(nodes);
+    char userInput[MAX_INPUT];
+    int nodes = 0;
 
-//    printLL(new);
+    printf("How many nodes would you like to add? ");
+    fgets(userInput, MAX_INPUT, stdin);
 
-    node n = {1,NULL}; //int example
-    printf("%d\n",n.data.i);
+    nodes = atoi(userInput);
+    node *new = createList(nodes);
 
-    char* a = 'a';
-    node m = {a, NULL}; //char example
-    printf("%s\n",m.data.str);
-
+    printLL(new);
     return 0;
 }
