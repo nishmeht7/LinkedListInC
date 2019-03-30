@@ -9,7 +9,7 @@
 void printLL(node *head) {
     node *curr = head;
     while(curr != NULL) {
-        printf("%s", curr->dataStr);
+        printf("%s\t", &curr->dataStr);
         curr = curr->next;
     }
     printf("\n");
@@ -19,23 +19,29 @@ node* createNode(char *newData) {
     int i;
     double d;
     double tolerance = 1e-12;
+
     node *temp = (node*)malloc(sizeof(node));
     strcpy(temp->dataStr, newData);
-    printf("the string is: %s\n", temp->dataStr);
+
     if(sscanf(newData, "%lf", &d) == 1) {
         i = (int)d; // typecast to int.
         if (fabs(d - i) / d > tolerance) {
-            temp->data.d = d;
             printf("The input is a floating point\n");
+            temp->data.d = d;
+            temp->type = 2;
         }
         else {
-            temp->data.i = i;
             printf("The input is an integer\n");
+            temp->data.i = i;
+            temp->type = 1;
         }
     }
     else {
+        printf("The input is a string\n");
         strcpy(temp->data.str, newData);
+        temp->type = 3;
     }
+
     return temp;
 }
 
@@ -51,8 +57,8 @@ node* createList(int n) {
         char inputData[MAX_INPUT];
         char *newData = inputData;
         fgets(newData, MAX_INPUT, stdin);
+        newData[strcspn(newData, "\n")] = 0; // removes new line from fgets buffer
         currNode = createNode(newData);
-        printf("the data is: %s\n", currNode->data.str);
 
         if(head == NULL) {
             head = currNode;

@@ -7,7 +7,7 @@ typedef struct node {
 
     //data version of the string
     char dataStr[20];
-    int type; //1 =int, 2 = double, 3 = float, 4 = string
+    int type; //1 =int, 2 = double, 3 = string
     union data;
     struct node* next;
 }node;
