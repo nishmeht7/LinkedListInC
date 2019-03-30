@@ -11,10 +11,9 @@
  * @param head first node of the list
  */
 void printLL(node *head) {
-    node *curr = head;
-    while(curr != NULL) {
-        printf("%s\t", &curr->dataStr);
-        curr = curr->next;
+    while(head != NULL) {
+        printf("%s\t", &head->dataStr);
+        head = head->next;
     }
     printf("\n");
 }
@@ -86,10 +85,58 @@ node* createList(int n) {
     return head;
 }
 
+/**
+ * inserts new element into list
+ * @param head head of the list to insert into
+ * @param idx position to insert at
+ * @param str data of new node
+ * @return head of list inserted into
+ */
+node* insert(node *head, int idx, char *str) {
+    node *curr = head;
+    node *newNode = createNode(str);
+    while(curr != NULL) {
+        if(idx == 0) {
+            newNode->next = head;
+            return newNode;
+        }
+        else if(idx - 1 == 0) {
+            node *temp = curr->next;
+            curr->next = newNode;
+            newNode->next = temp;
+            break;
+        }
+        idx--;
+        curr = curr->next;
+    }
+    return head;
+}
+
+/**
+ * appends an item to the end of the list
+ * @param head first node of list to be appended to
+ * @param data the data for the new node that is created and appended
+ * @return head of the newly appended to list
+ */
+node* append(node *head, char *data) {
+    node *curr = head;
+    node *newNode = createNode(data);
+    if(head == NULL) return newNode;
+    if(head->next == NULL) {
+        head->next = newNode;
+        return head;
+    }
+    while(curr->next != NULL) {
+        curr = curr->next;
+    }
+    curr->next = newNode;
+    return head;
+}
+
 //TODO print, append(data), getLength, insert(index, data), modify(index, data)
 //TODO min, max, concat, reverse, sort (selection)
 
-//TODO Nishant: print, append, concat, insert
+//TODO Nishant: print(done), append, concat, insert(done)
 //TODO Fred: min, max, modify
 
 /**
@@ -107,5 +154,10 @@ int main() {
     node *new = createList(nodes);
 
     printLL(new);
+
+//    node *newHead = insert(new, 2, "[1,2,3,4]");
+    node *newHead = append(new, "54321");
+
+    printLL(newHead);
     return 0;
 }
