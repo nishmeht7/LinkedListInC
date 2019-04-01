@@ -95,27 +95,12 @@ node* createList(int n) {
 
     for(i = 0; i < n; i++) {
         printf("(inside list)\n");
-//        printf("Enter 1 to add a value and 2 to add a list");
-//        char inputData1[MAX_INPUT];
-//        char *inputPtr = inputData1;
-//        fgets(inputPtr, MAX_INPUT, stdin);
-//        inputPtr[strcspn(inputPtr, "\n")] = 0;
-////        int userInput = (int)(inputPtr);
-//        int userInput = strtol(inputData1, NULL, 10);
-//        printf("the input ptr is: %s\n", inputPtr);
-//        printf("the use input is: %d\n", userInput);
-//        if(userInput == 2) {
-//            currNode = createListWrapper();
-//        }
-//        else {
-            printf("Please enter a value to add: ");
-            char inputData[MAX_INPUT];
-            char *newData = inputData;
-            fgets(newData, MAX_INPUT, stdin);
-            newData[strcspn(newData, "\n")] = 0; // removes new line from fgets buffer
-            currNode = createNode(newData);
-//        }
-
+        printf("Please enter a value to add: ");
+        char inputData[MAX_INPUT];
+        char *newData = inputData;
+        fgets(newData, MAX_INPUT, stdin);
+        newData[strcspn(newData, "\n")] = 0; // removes new line from fgets buffer
+        currNode = createNode(newData);
         if(head == NULL) {
             head = currNode;
             tail = currNode;
