@@ -277,13 +277,25 @@ node* modify(node *head, int indexToInsert, char *data){
     return head;
 }
 
+/**
+ * helper method for insertion sort
+ * @param headOfSorted sorted part of the list
+ * @param toInsert  new element to insert
+ * @return head of newly sorted list
+ */
 node* insertNodeIntoSorted(node *headOfSorted, node *toInsert) {
 
     if (headOfSorted == NULL){
         return toInsert;
     }
-    printf("HOS and toInsert: %s\t%s\n", headOfSorted->dataStr, toInsert->dataStr);
-    int cmp = strcmp(headOfSorted->dataStr, toInsert->dataStr);
+    int cmp;
+    // sorts integers using a strncmp which correctly sorts integers with multiple digits
+    if(headOfSorted->type == 1 && toInsert->type == 1) {
+        cmp = strncmp(headOfSorted->dataStr, toInsert->dataStr, MAX_INPUT);
+    }
+    else {
+        cmp = strcmp(headOfSorted->dataStr, toInsert->dataStr);
+    }
     if (cmp > 0){
         //insert at front
         toInsert->next = headOfSorted;
@@ -292,15 +304,18 @@ node* insertNodeIntoSorted(node *headOfSorted, node *toInsert) {
     node* curr = headOfSorted;
     while (cmp < 0 && curr->next != NULL){
         cmp = strcmp(curr->next->dataStr, toInsert->dataStr);
-        //printf("Curr and to insert: %s\t%s\n", curr->dataStr, toInsert->dataStr);
         if(cmp < 0) curr = curr->next;
     }
-    printf("to insert and curr: %s\t%s\n", toInsert->dataStr, curr->dataStr);
     toInsert->next = curr->next;
     curr->next = toInsert;
     return headOfSorted;
 }
 
+/**
+ * insertion sort alogortithm to sort a list
+ * @param list - list to be sorted
+ * @return sorted head of list
+ */
 node* insertionSort(node *list){
 
     node *headOfSorted = NULL; //Start with empty list
