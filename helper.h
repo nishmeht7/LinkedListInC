@@ -1,17 +1,9 @@
-typedef struct node {
-
-    union {
-        int i;
-        double d;
-        float f;
-        char* str[20];
-
-    } data;
-
-    int type; //1 =int, 2 = double, 3 = float, 4 = string
-    union data;
-    char* dataStr[20];
+struct node {
+    void *data;
+    char dataStr[20];
+    int type; //1 =int, 2 = double, 3 = string 4 = list
     struct node* next;
-}node;
+}node_default = {NULL, "\0", 0, NULL};
 
+typedef struct node node;
 

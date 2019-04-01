@@ -6,13 +6,16 @@
 
 #define MAX_INPUT 100
 
+node* createList();
+node* createListWrapper();
+
 /**
  * prints a linked list
  * @param head first node of the list
  */
 void printLL(node *head) {
     while(head != NULL) {
-        printf("%s\t", &head->dataStr);
+        printf("%s\t", head->dataStr);
         head = head->next;
     }
     printf("\n");
@@ -49,22 +52,32 @@ node* createNode(char *newData) {
         i = (int)d; // typecast to int.
         if (fabs(d - i) / d > tolerance) {
             printf("The input is a floating point\n");
-            temp->data.d = d;
+            temp->data = &d;
             temp->type = 2;
         }
         else {
             printf("The input is an integer\n");
-            temp->data.i = i;
+            temp->data = &i;
             temp->type = 1;
         }
     }
     else {
         printf("The input is a string\n");
-        strcpy(temp->data.str, newData);
+        temp->data = newData;
         temp->type = 3;
     }
-
     return temp;
+}
+
+node* createListWrapper() {
+    char userInput[MAX_INPUT];
+    int nodes = 0;
+
+    printf("How many nodes would you like to add? ");
+    fgets(userInput, MAX_INPUT, stdin);
+    nodes = strtol(userInput, NULL, 10);
+    printf("nodes are: %d\n", nodes);
+    return createList(nodes);
 }
 
 /**
@@ -86,7 +99,6 @@ node* createList(int n) {
         fgets(newData, MAX_INPUT, stdin);
         newData[strcspn(newData, "\n")] = 0; // removes new line from fgets buffer
         currNode = createNode(newData);
-
         if(head == NULL) {
             head = currNode;
             tail = currNode;
@@ -148,6 +160,7 @@ node* append(node *head, char *data) {
 }
 
 /**
+<<<<<<< HEAD
  * concatenates two lists
  * @param list1 head of list one
  * @param list2 head of list two
@@ -183,7 +196,7 @@ node* min(node *list){
     node *min = list;
     if(list == NULL) return list;
     while(curr != NULL) {
-        int cmp = strcmp(curr->data.str, min->data.str);
+        int cmp = strcmp(curr->dataStr, min->dataStr);
         if (cmp < 0){
             min = curr;
         }
@@ -202,13 +215,12 @@ node* max(node *list){
     node *max = list;
     if(list == NULL) return list;
     while(curr != NULL) {
-        int cmp = strcmp(curr->data.str, max->data.str);
+        int cmp = strcmp(curr->dataStr, max->dataStr);
         if (cmp > 0){
             max = curr;
         }
         curr = curr->next;
     }
-
     return max;
 }
 
@@ -265,33 +277,6 @@ node* modify(node *head, int indexToInsert, char *data){
     return head;
 }
 
-
-///**
-// * user enabled creation of a new linked list
-// * @param n number of nodes to start with
-// * @return head to the newly created list
-// */
-//node* createTestList(int n) {
-//    char i = 0;
-//    node *currNode;
-//    node *head = NULL;
-//    node *tail = NULL;
-//
-//    for(i = 'a'; i < n; i++) {
-//        currNode = createNode(&i);
-//
-//        if(head == NULL) {
-//            head = currNode;
-//            tail = currNode;
-//        }
-//        else {
-//            tail->next = currNode;
-//            tail = currNode;
-//        }
-//    }
-//    return head;
-//}
-
 node* insertNodeIntoSorted(node *headOfSorted, node *toInsert) {
 
     if (headOfSorted == NULL){
@@ -335,12 +320,13 @@ node* insertionSort(node *list){
  */
 int main() {
     char userInput[MAX_INPUT];
+    char *inputPtr = userInput;
     int nodes = 0;
 
     printf("How many nodes would you like to add? \n");
     fgets(userInput, MAX_INPUT, stdin);
 
-    nodes = atoi(userInput);
+    nodes = strtol(userInput, NULL, 10);
     node *newHead = createList(nodes);
 //
 //    printf("How many nodes would you like for the second list? \n");
@@ -383,5 +369,4 @@ int main() {
     newHead = insertionSort(newHead);
     printLL(newHead);
 
-    return 0;
 }
