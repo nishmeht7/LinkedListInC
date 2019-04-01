@@ -222,7 +222,7 @@ node* reverse(node *head){
     node *curr = head;
     node *next = NULL;
 
-    while (curr !=NULL){
+    while (curr != NULL){
 
         next = curr->next;
         curr->next = previous;
@@ -292,6 +292,40 @@ node* modify(node *head, int indexToInsert, char *data){
 //    return head;
 //}
 
+node* insertNodeIntoSorted(node *headOfSorted, node *toInsert) {
+
+    if (headOfSorted == NULL){
+        return toInsert;
+    }
+    int cmp = strcmp(headOfSorted->dataStr, toInsert->dataStr);
+    if (cmp > 0){
+        //insert at front
+        toInsert->next = headOfSorted;
+        return toInsert;
+    }
+    node* curr = headOfSorted;
+    while (cmp < 0 && curr->next != NULL){
+        cmp = strcmp(curr->next->dataStr, toInsert->dataStr);
+        //printf("Curr and to insert: %s\t%s\n", curr->dataStr, toInsert->dataStr);
+        curr = curr->next;
+    }
+    toInsert->next = curr->next;
+    curr->next = toInsert;
+    return headOfSorted;
+}
+
+node* insertionSort(node *list){
+
+    node *headOfSorted = NULL; //Start with empty list
+    node *curr = list;
+    while (curr != NULL){
+        node *next = curr->next;
+        curr->next = NULL;
+        headOfSorted = insertNodeIntoSorted(headOfSorted,curr);
+        curr = next;
+    }
+    return headOfSorted;
+}
 
 /**
  * program main function
@@ -305,19 +339,19 @@ int main() {
     fgets(userInput, MAX_INPUT, stdin);
 
     nodes = atoi(userInput);
-    node *new = createList(nodes);
-
-    printf("How many nodes would you like for the second list? \n");
-    fgets(userInput, MAX_INPUT, stdin);
-
-    nodes = atoi(userInput);
-    node *second = createList(nodes);
-
-    printLL(new);
+    node *newHead = createList(nodes);
+//
+//    printf("How many nodes would you like for the second list? \n");
+//    fgets(userInput, MAX_INPUT, stdin);
+//
+//    nodes = atoi(userInput);
+//    node *second = createList(nodes);
+//
+//    printLL(new);
 
 //    node *newHead = insert(new, 2, "[1,2,3,4]");
 //    node *newHead = append(new, "54321");
-    node *newHead = concat(new, second);
+//    node *newHead = concat(new, second);
 
     printLL(newHead);
     node *minNode = min(newHead);
@@ -341,6 +375,10 @@ int main() {
 
     printf("reversed linked list:\n");
     newHead = reverse(newHead);
+    printLL(newHead);
+
+    printf("sorted linked list:\n");
+    newHead = insertionSort(newHead);
     printLL(newHead);
 
     return 0;
