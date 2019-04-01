@@ -282,6 +282,7 @@ node* insertNodeIntoSorted(node *headOfSorted, node *toInsert) {
     if (headOfSorted == NULL){
         return toInsert;
     }
+    printf("HOS and toInsert: %s\t%s\n", headOfSorted->dataStr, toInsert->dataStr);
     int cmp = strcmp(headOfSorted->dataStr, toInsert->dataStr);
     if (cmp > 0){
         //insert at front
@@ -292,8 +293,9 @@ node* insertNodeIntoSorted(node *headOfSorted, node *toInsert) {
     while (cmp < 0 && curr->next != NULL){
         cmp = strcmp(curr->next->dataStr, toInsert->dataStr);
         //printf("Curr and to insert: %s\t%s\n", curr->dataStr, toInsert->dataStr);
-        curr = curr->next;
+        if(cmp < 0) curr = curr->next;
     }
+    printf("to insert and curr: %s\t%s\n", toInsert->dataStr, curr->dataStr);
     toInsert->next = curr->next;
     curr->next = toInsert;
     return headOfSorted;
@@ -305,6 +307,7 @@ node* insertionSort(node *list){
     node *curr = list;
     node *newlySorted = NULL;
     while (curr != NULL){
+        printf("outside while curr is: %s\n", curr->dataStr);
         node *next = curr->next;
         curr->next = NULL;
         newlySorted = insertNodeIntoSorted(headOfSorted,curr);
