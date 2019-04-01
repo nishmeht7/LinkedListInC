@@ -13,6 +13,10 @@ stdio.h
 -
 stdlib.h
 -
+string.h
+-
+math.h
+-
 helper.h
 /Users/nishantmehta/Desktop/CS520/LL/helper.h
 

@@ -6,10 +6,11 @@ typedef struct node {
         float f;
         char* str[20];
 
-        int type; //1 =int, 2 = double, 3 = float, 4 = string
     } data;
 
+    int type; //1 =int, 2 = double, 3 = float, 4 = string
     union data;
+    char* dataStr[20];
     struct node* next;
 }node;
 

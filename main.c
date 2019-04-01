@@ -318,10 +318,12 @@ node* insertionSort(node *list){
 
     node *headOfSorted = NULL; //Start with empty list
     node *curr = list;
+    node *newlySorted = NULL;
     while (curr != NULL){
         node *next = curr->next;
         curr->next = NULL;
-        headOfSorted = insertNodeIntoSorted(headOfSorted,curr);
+        newlySorted = insertNodeIntoSorted(headOfSorted,curr);
+        headOfSorted = newlySorted;
         curr = next;
     }
     return headOfSorted;
@@ -360,22 +362,22 @@ int main() {
     node *maxNode = max(newHead);
     printf("max: %s\n", maxNode->dataStr);
 
-    printf("What node would you like to modify (index starts at 0)? \n");
-    fgets(userInput, MAX_INPUT, stdin);
-
-    int modifyIndex = atoi(userInput);
-
-    printf("What value would you like that node to be? \n");
-    fgets(userInput, MAX_INPUT, stdin);
-
-    newHead = modify(newHead, modifyIndex, userInput);
-
-    printf("new linked list after modification:\n");
-    printLL(newHead);
-
-    printf("reversed linked list:\n");
-    newHead = reverse(newHead);
-    printLL(newHead);
+//    printf("What node would you like to modify (index starts at 0)? \n");
+//    fgets(userInput, MAX_INPUT, stdin);
+//
+//    int modifyIndex = atoi(userInput);
+//
+//    printf("What value would you like that node to be? \n");
+//    fgets(userInput, MAX_INPUT, stdin);
+//
+//    newHead = modify(newHead, modifyIndex, userInput);
+//
+//    printf("new linked list after modification:\n");
+//    printLL(newHead);
+//
+//    printf("reversed linked list:\n");
+//    newHead = reverse(newHead);
+//    printLL(newHead);
 
     printf("sorted linked list:\n");
     newHead = insertionSort(newHead);
