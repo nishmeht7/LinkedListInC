@@ -376,6 +376,21 @@ node* insertionSort(node *list){
     return headOfSorted;
 }
 
+void getElem(node *head, int index) {
+    while(head != NULL) {
+        if(index == 0) {
+            if(head->type == 4){
+                printf("nothing");
+            }
+            else {
+                printf("%s\n", head->dataStr);
+            }
+        }
+        index--;
+        head = head->next;
+    }
+}
+
 /**
  * program main function
  * @return
