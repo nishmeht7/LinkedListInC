@@ -73,7 +73,7 @@ node* createListWrapper() {
     char userInput[MAX_INPUT];
     int nodes = 0;
 
-    printf("How many nodes would you like to add? ");
+    printf("How many nodes would you like to add? \n");
     fgets(userInput, MAX_INPUT, stdin);
     nodes = strtol(userInput, NULL, 10);
     printf("nodes are: %d\n", nodes);
@@ -92,8 +92,7 @@ node* createList(int n) {
     node *tail = NULL;
 
     for(i = 0; i < n; i++) {
-        printf("(inside list)\n");
-        printf("Please enter a value to add: ");
+        printf("Please enter a value to add: \n");
         char inputData[MAX_INPUT];
         char *newData = inputData;
         fgets(newData, MAX_INPUT, stdin);
@@ -121,6 +120,10 @@ node* createList(int n) {
 node* insert(node *head, int idx, char *str) {
     node *curr = head;
     node *newNode = createNode(str);
+
+    if (head == NULL && idx == 0){
+        return newNode;
+    }
     while(curr != NULL) {
         if(idx == 0) {
             newNode->next = head;
@@ -277,6 +280,28 @@ node* modify(node *head, int indexToInsert, char *data){
     return head;
 }
 
+
+/**
+ * Modifies linked list node at specified index
+ * @param head linked list head
+ * @param indexToInsert index to change value
+ * @param data data to insert
+ * @return head of linked list
+ */
+void get(node *head, int indexToFind){
+    int index = 0;
+    node *curr = head;
+
+    while(curr != NULL) {
+        if (index == indexToFind){
+            printf("The value at index %d is:\n %s\n", indexToFind, curr->dataStr);
+            return;
+        }
+        index++;
+        curr = curr->next;
+    }
+    printf("There was not a value at that index\n");
+}
 /**
  * helper method for insertion sort
  * @param headOfSorted sorted part of the list
@@ -322,7 +347,7 @@ node* insertionSort(node *list){
     node *curr = list;
     node *newlySorted = NULL;
     while (curr != NULL){
-        printf("outside while curr is: %s\n", curr->dataStr);
+//        printf("outside while curr is: %s\n", curr->dataStr);
         node *next = curr->next;
         curr->next = NULL;
         newlySorted = insertNodeIntoSorted(headOfSorted,curr);
@@ -337,54 +362,170 @@ node* insertionSort(node *list){
  * @return
  */
 int main() {
-    char userInput[MAX_INPUT];
-    char *inputPtr = userInput;
+
+    int inputCorrect = 0;
+    int quit = 0;
+    int singleListMenu = 0;
+    int input;
+    int menu;
+    node *list = NULL;
     int nodes = 0;
 
-    printf("How many nodes would you like to add? \n");
-    fgets(userInput, MAX_INPUT, stdin);
+    char userInput[MAX_INPUT];
+    char *inputPtr = userInput;
 
-    nodes = strtol(userInput, NULL, 10);
-    node *newHead = createList(nodes);
-//
-//    printf("How many nodes would you like for the second list? \n");
-//    fgets(userInput, MAX_INPUT, stdin);
-//
-//    nodes = atoi(userInput);
-//    node *second = createList(nodes);
-//
-//    printLL(new);
 
-//    node *newHead = insert(new, 2, "[1,2,3,4]");
-//    node *newHead = append(new, "54321");
-//    node *newHead = concat(new, second);
+    printf("Welcome to the Linked List program.\n");
+    while (quit == 0){
+        inputCorrect = 0;
+        singleListMenu = 0;
+        while (inputCorrect == 0){
+            printf("\nEnter 1 to work with one list.\n");
+            printf("Enter 2 to concat two lists.\n");
+            printf("Enter 3 to quit.\n");
 
-    printLL(newHead);
-    node *minNode = min(newHead);
-    printf("min: %s\n", minNode->dataStr);
+            //TODO fgets done
+            fgets(inputPtr, MAX_INPUT, stdin);
+            inputPtr[strcspn(inputPtr, "\n")] = 0;
+            menu = strtol(inputPtr, NULL, 10);
 
-    node *maxNode = max(newHead);
-    printf("max: %s\n", maxNode->dataStr);
+            if (menu == 1){
+                inputCorrect = 1;
+                singleListMenu = 1;
 
-//    printf("What node would you like to modify (index starts at 0)? \n");
-//    fgets(userInput, MAX_INPUT, stdin);
-//
-//    int modifyIndex = atoi(userInput);
-//
-//    printf("What value would you like that node to be? \n");
-//    fgets(userInput, MAX_INPUT, stdin);
-//
-//    newHead = modify(newHead, modifyIndex, userInput);
-//
-//    printf("new linked list after modification:\n");
-//    printLL(newHead);
-//
-//    printf("reversed linked list:\n");
-//    newHead = reverse(newHead);
-//    printLL(newHead);
+            }
+            else if (menu == 2) {
+                inputCorrect = 1;
 
-    printf("sorted linked list:\n");
-    newHead = insertionSort(newHead);
-    printLL(newHead);
+                printf("How many nodes would you like to add to the first list? \n");
 
+                //TODO fgets done
+                fgets(inputPtr, MAX_INPUT, stdin);
+                inputPtr[strcspn(inputPtr, "\n")] = 0; // removes new line from fgets buffer
+                nodes = strtol(inputPtr, NULL, 10);
+
+                node *firstHead = createList(nodes);
+
+                printf("How many nodes would you like for the second list? \n");
+
+                //TODO fgets done
+                fgets(inputPtr, MAX_INPUT, stdin);
+                inputPtr[strcspn(inputPtr, "\n")] = 0; // removes new line from fgets buffer
+                nodes = strtol(inputPtr, NULL, 10);
+
+                node *secondHead = createList(nodes);
+
+                node *newHead = concat(firstHead, secondHead);
+                printf("The concatenated list: \n");
+                printLL(newHead);
+            }
+            else if (menu == 3){
+                printf("Exiting the program...\n");
+                inputCorrect = 1;
+                quit = 1;
+
+            }
+            else {
+                printf("Please enter a valid menu input.\n");
+            }
+        }
+        while (singleListMenu == 1 && quit == 0){
+            inputCorrect = 0;
+            printf("Welcome to the single list section.\n");
+            printf("Enter 1 to print the current list.\n");
+            printf("Enter 2 to add an element.\n");
+            printf("Enter 3 to modify an element.\n");
+            printf("Enter 4 to print the max value.\n");
+            printf("Enter 5 to print the minimum value.\n");
+            printf("Enter 6 to sort the list.\n");
+            printf("Enter 7 to reverse the list.\n");
+            printf("Enter 8 to print a specific element.\n");
+            printf("Enter 9 to determine the length.\n");
+            printf("Enter 10 to insert an element at a specific index.\n");
+            printf("Enter 0 to go back to main menu.\n");
+
+            //TODO fgets done
+            char secondInput[20];
+            char *newPtr = secondInput;
+            int newInt;
+            fgets(newPtr, MAX_INPUT, stdin);
+            newPtr[strcspn(newPtr, "\n")] = 0; // removes new line from fgets buffer
+            menu = strtol(newPtr, NULL, 10);
+
+
+            if (menu > -1 && menu < 12){
+                if (menu == 1){
+                    printf("The list currently: \n");
+                    printLL(list);
+                }
+                else if (menu == 2){
+                    node *newNode = createList(1);
+                    list = concat(list, newNode);
+                    printf("The list currently: \n");
+                    printLL(list);
+                }
+                else if (menu == 3){
+
+                    printf("What node would you like to modify (index starts at 0)? \n");
+                    fgets(inputPtr, MAX_INPUT, stdin);
+                    inputPtr[strcspn(inputPtr, "\n")] = 0; // removes new line from fgets buffer
+                    int modifyIndex = atoi(inputPtr);
+
+                    printf("What value would you like that node to be? \n");
+                    fgets(inputPtr, MAX_INPUT, stdin);
+                    inputPtr[strcspn(inputPtr, "\n")] = 0; // removes new line from fgets buffer
+                    list = modify(list, modifyIndex, inputPtr);
+                    printf("new linked list after modification:\n");
+                    printLL(list);
+                }
+                else if (menu == 4){
+                    printf("The maximum value is: \n");
+                    printf("%s\n", max(list)->dataStr);
+                }
+                else if (menu == 5){
+                    printf("The maximum value is: \n");
+                    printf("%s\n", min(list)->dataStr);
+                }
+                else if (menu == 6) {
+                    printf("The list is now sorted: \n");
+                    list = insertionSort(list);
+                    printLL(list);
+                }
+                else if (menu == 7){
+                    printf("The list is now reversed: \n");
+                    list = reverse(list);
+                    printLL(list);
+                }
+                else if (menu == 8){
+                    printf("What element would you like to print? \n");
+                    fgets(inputPtr, MAX_INPUT, stdin);
+                    inputPtr[strcspn(inputPtr, "\n")] = 0; // removes new line from fgets buffer
+                    input = strtol(inputPtr, NULL, 10);
+                    get(list, input);
+                }
+                else if (menu == 9){
+                    printf("The length of the list is %d\n", getLen(list));
+                }
+                else if (menu == 10) {
+                    printf("What index would you like to insert at (index starts at 0)? \n");
+                    fgets(inputPtr, MAX_INPUT, stdin);
+                    inputPtr[strcspn(inputPtr, "\n")] = 0; // removes new line from fgets buffer
+                    int insertIndex = atoi(userInput);
+
+                    printf("What value would you like that node to be? \n");
+                    fgets(inputPtr, MAX_INPUT, stdin);
+                    inputPtr[strcspn(inputPtr, "\n")] = 0; // removes new line from fgets buffer
+
+                    list = insert(list, insertIndex, inputPtr);
+                    printLL(list);
+                }
+                else if (menu == 0){
+                    singleListMenu = 1;
+                }
+            }
+            else {
+                printf("Please enter a valid input\n");
+            }
+        } // (while singleListMenu == 1 && quit == 0)
+    }
 }
