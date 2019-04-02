@@ -9,13 +9,30 @@
 node* createList();
 node* createListWrapper();
 
+void printNestedList(node *head) {
+    printf("[");
+    while(head != NULL) {
+        while(head != NULL) {
+            printf("%s", head->dataStr);
+            head->next == NULL ? printf("") : printf(",");
+            head = head->next;
+        }
+    }
+    printf("]\t");
+}
+
 /**
  * prints a linked list
  * @param head first node of the list
  */
 void printLL(node *head) {
     while(head != NULL) {
-        printf("%s\t", head->dataStr);
+        if(head->type == 4) {
+            printNestedList(head->data);
+        }
+        else {
+            printf("%s\t", head->dataStr);
+        }
         head = head->next;
     }
     printf("\n");
@@ -41,6 +58,7 @@ int getLen(node *head) {
  * @return the newly created node
  */
 node* createNode(char *newData) {
+    printf("CREATE NODE: %s\n", newData);
     int i;
     double d;
     double tolerance = 1e-12;
@@ -69,14 +87,21 @@ node* createNode(char *newData) {
     return temp;
 }
 
+node* createNestedList() {
+    node *temp = (node*)malloc(sizeof(node));
+
+    temp->data = createListWrapper();
+    temp->type = 4;
+    return temp;
+}
+
 node* createListWrapper() {
     char userInput[MAX_INPUT];
     int nodes = 0;
-
     printf("How many nodes would you like to add? ");
     fgets(userInput, MAX_INPUT, stdin);
+    userInput[strcspn(userInput, "\n")] = 0; // removes new line from fgets buffer
     nodes = strtol(userInput, NULL, 10);
-    printf("nodes are: %d\n", nodes);
     return createList(nodes);
 }
 
@@ -93,12 +118,25 @@ node* createList(int n) {
 
     for(i = 0; i < n; i++) {
         printf("(inside list)\n");
-        printf("Please enter a value to add: ");
-        char inputData[MAX_INPUT];
-        char *newData = inputData;
-        fgets(newData, MAX_INPUT, stdin);
-        newData[strcspn(newData, "\n")] = 0; // removes new line from fgets buffer
-        currNode = createNode(newData);
+        char userInput[MAX_INPUT];
+        char *inputPtr = userInput;
+        printf("Enter 1 to enter a value, or 2 to add a nested list\n");
+        fgets(inputPtr, MAX_INPUT, stdin);
+        inputPtr[strcspn(inputPtr, "\n")] = 0; // removes new line from fgets buffer
+        int choice = strtol(inputPtr, NULL, 10);
+        printf("the choice is: %d\n", choice);
+        if(choice == 2) {
+            currNode = createNestedList();
+        }
+        else {
+            printf("Please enter a value to add: \n");
+            char inputData[MAX_INPUT];
+            char *newData = inputData;
+            fgets(newData, MAX_INPUT, stdin);
+            newData[strcspn(newData, "\n")] = 0; // removes new line from fgets buffer
+            printf("NEW DATA ENTERED: %s\n", newData);
+            currNode = createNode(newData);
+        }
         if(head == NULL) {
             head = currNode;
             tail = currNode;
@@ -107,6 +145,7 @@ node* createList(int n) {
             tail->next = currNode;
             tail = currNode;
         }
+
     }
     return head;
 }
@@ -196,9 +235,11 @@ node* min(node *list){
     node *min = list;
     if(list == NULL) return list;
     while(curr != NULL) {
-        int cmp = strcmp(curr->dataStr, min->dataStr);
-        if (cmp < 0){
-            min = curr;
+        if(curr->type != 4) {
+            int cmp = strcmp(curr->dataStr, min->dataStr);
+            if (cmp < 0){
+                min = curr;
+            }
         }
         curr = curr->next;
     }
@@ -284,7 +325,7 @@ node* modify(node *head, int indexToInsert, char *data){
  * @return head of newly sorted list
  */
 node* insertNodeIntoSorted(node *headOfSorted, node *toInsert) {
-
+    if(toInsert->type == 4) return toInsert;
     if (headOfSorted == NULL){
         return toInsert;
     }
@@ -322,13 +363,16 @@ node* insertionSort(node *list){
     node *curr = list;
     node *newlySorted = NULL;
     while (curr != NULL){
-        printf("outside while curr is: %s\n", curr->dataStr);
         node *next = curr->next;
+        if(curr->type == 4) {
+            strcpy(curr->dataStr, "");
+        }
         curr->next = NULL;
         newlySorted = insertNodeIntoSorted(headOfSorted,curr);
         headOfSorted = newlySorted;
         curr = next;
     }
+//    printf("the head of sorted is: %s\n", headOfSorted->dataStr);
     return headOfSorted;
 }
 
@@ -341,11 +385,13 @@ int main() {
     char *inputPtr = userInput;
     int nodes = 0;
 
-    printf("How many nodes would you like to add? \n");
-    fgets(userInput, MAX_INPUT, stdin);
+//    printf("How many nodes would you like to add? \n");
+//    fgets(userInput, MAX_INPUT, stdin);
+//
+//    nodes = strtol(userInput, NULL, 10);
+//    node *newHead = createList(nodes);
 
-    nodes = strtol(userInput, NULL, 10);
-    node *newHead = createList(nodes);
+    node *newHead = createListWrapper();
 //
 //    printf("How many nodes would you like for the second list? \n");
 //    fgets(userInput, MAX_INPUT, stdin);
@@ -384,7 +430,7 @@ int main() {
 //    printLL(newHead);
 
     printf("sorted linked list:\n");
-    newHead = insertionSort(newHead);
-    printLL(newHead);
+    node *sortedHead = insertionSort(newHead);
+    printLL(sortedHead);
 
 }
