@@ -183,12 +183,6 @@ node* concat(node *list1, node *list2) {
     return list1;
 }
 
-//TODO print, append(data), getLength, insert(index, data), modify(index, data)
-//TODO min, max, concat, reverse, sort (selection)
-
-//TODO Nishant: print(done), append(done), concat(done), insert(done)
-//TODO Fred: min, max, modify, reverse
-
 /**
  * Finds minimum value in linked list
  * @param list head of linked list
@@ -384,7 +378,6 @@ int main() {
             printf("Enter 2 to concat two lists.\n");
             printf("Enter 3 to quit.\n");
 
-            //TODO fgets done
             fgets(inputPtr, MAX_INPUT, stdin);
             inputPtr[strcspn(inputPtr, "\n")] = 0;
             menu = strtol(inputPtr, NULL, 10);
@@ -399,7 +392,6 @@ int main() {
 
                 printf("How many nodes would you like to add to the first list? \n");
 
-                //TODO fgets done
                 fgets(inputPtr, MAX_INPUT, stdin);
                 inputPtr[strcspn(inputPtr, "\n")] = 0; // removes new line from fgets buffer
                 nodes = strtol(inputPtr, NULL, 10);
@@ -408,7 +400,6 @@ int main() {
 
                 printf("How many nodes would you like for the second list? \n");
 
-                //TODO fgets done
                 fgets(inputPtr, MAX_INPUT, stdin);
                 inputPtr[strcspn(inputPtr, "\n")] = 0; // removes new line from fgets buffer
                 nodes = strtol(inputPtr, NULL, 10);
@@ -444,7 +435,6 @@ int main() {
             printf("Enter 10 to insert an element at a specific index.\n");
             printf("Enter 0 to go back to main menu.\n");
 
-            //TODO fgets done
             char secondInput[20];
             char *newPtr = secondInput;
             int newInt;
